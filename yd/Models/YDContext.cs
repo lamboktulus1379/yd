@@ -13,6 +13,5 @@ namespace yd.Models
 
         }
         public DbSet<YD> YD { get; set; }
-        public DbSet<Role> Roles { get; set; } 
     }
 }
