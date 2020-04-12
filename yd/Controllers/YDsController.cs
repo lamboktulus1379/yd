@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using yd.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using yd.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,9 +20,9 @@ namespace yd.Controllers
         }
         // GET: api/<YDsController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<YD>>>  Get()
+        public async Task<ActionResult<IEnumerable<YD>>> Get()
         {
-            return  await _context.YD.ToListAsync();
+            return await _context.YD.ToListAsync();
         }
 
         // GET api/<YDsController>/5
