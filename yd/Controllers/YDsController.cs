@@ -73,8 +73,10 @@ namespace yd.Controllers
             }
             return Ok(yd);
         }
-
-        // DELETE api/<YDsController>/5
+        /// <summary>
+        /// Deletes a specific YD item.
+        /// </summary>
+        /// <param name="id"></param>   
         [HttpDelete("{id}")]
         public async Task<ActionResult<YD>> Delete(int id)
         {
