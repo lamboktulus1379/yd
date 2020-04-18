@@ -28,7 +28,7 @@ namespace yd.Controllers
         [HttpGet]
         public IActionResult Login(string username, string password)
         {
-            UserModel login = new UserModel();
+            User login = new User();
 
             login.UserName = username;
             login.Password = password;
@@ -44,19 +44,19 @@ namespace yd.Controllers
             return response;
         }
 
-        private UserModel AuthenticateUser(UserModel login)
+        private User AuthenticateUser(User login)
         {
-            UserModel user = null;
+            User user = null;
             if (login.UserName == "lamboktulus1379" && login.Password == "gra0307")
             {
-                user = new UserModel { UserName = "lamboktulus1379", EmailAddress = "lamboktulus1379@gmail.com", Password = "gra0307" };
+                user = new User { UserName = "lamboktulus1379", EmailAddress = "lamboktulus1379@gmail.com", Password = "gra0307" };
 
                 
             }
             return user;
         }
 
-        private string GenerateJSONWebToken(UserModel userinfo)
+        private string GenerateJSONWebToken(User userinfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
 

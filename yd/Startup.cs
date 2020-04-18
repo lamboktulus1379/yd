@@ -43,7 +43,7 @@ namespace yd
                 {
                     Title = "YD",
                     Version = "v1",
-                    Description = "A simple example ASP.NET Core Web API",
+                    Description = "YD ASP.NET Core Web API",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
