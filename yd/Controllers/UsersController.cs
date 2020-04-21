@@ -17,15 +17,29 @@ namespace yd.Controllers
     public class UsersController : ControllerBase
     {
         private readonly YDContext _context;
+
         public UsersController(YDContext context)
         {
             _context = context;
         }
+       
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<User>> GetUser()
         {
-            return await _context.Users.ToListAsync();
+           
+            string emailAddress = HttpContext.User.Identity.Name;
+            var user = await _context.Users
+                .Where(user => user.EmailAddress == emailAddress).FirstOrDefaultAsync();
+
+            user.Password = null;
+
+            if (user == null)
+            {
+                return user;
+            }
+
+            return user;
         }
 
         // GET api/<YDsController>/5
