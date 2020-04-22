@@ -18,25 +18,21 @@ namespace yd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly YDContext _context;
-       
         private readonly JWTSettings _jwtsettings;
 
-        public UsersController(YDContext context, IOptions<JWTSettings> jwtsettings)
+        public AuthController(YDContext context, IOptions<JWTSettings> jwtsettings)
         {
             _context = context;
             _jwtsettings = jwtsettings.Value;
         }
-
-
         [HttpPost("Login")]
         public async Task<ActionResult<UserWithToken>> Login([FromBody] User user)
         {
-
             user = await _context.Users
-                .Where(u => u.EmailAddress == user.EmailAddress && u.Password == user.Password).FirstOrDefaultAsync();
+                .Where(u => u.EmailAddress == user.EmailAddress || u.UserName == u.EmailAddress && u.Password == user.Password).FirstOrDefaultAsync();
 
             UserWithToken userWithToken = new UserWithToken(user);
 
@@ -62,12 +58,15 @@ namespace yd.Controllers
 
             return userWithToken;
         }
-
-        // GET api/<YDsController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
+        [Authorize]
+        [HttpGet("User")]
+        public async Task<ActionResult<User>> Get()
         {
-            var user = await _context.Users.FindAsync(id);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            IList<Claim> claim = identity.Claims.ToList();
+            var emailAddress = claim[0].Value;
+            var user = await _context.Users
+                .Where(u => u.EmailAddress == emailAddress).FirstOrDefaultAsync();
 
             if (user == null)
             {
