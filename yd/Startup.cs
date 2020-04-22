@@ -19,8 +19,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
-using yd.Handlers;
 
 namespace yd
 {
@@ -37,66 +35,63 @@ namespace yd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var jwtSection = Configuration.GetSection("JWTSettings");
-
-            services.Configure<JWTSettings>(jwtSection);
 
             services.AddControllers();
-            /*  services.AddSwaggerGen(c =>
-              {
-                  c.SwaggerDoc("v1", new OpenApiInfo
-                  {
-                      Title = "YD",
-                      Version = "v1",
-                      Description = "YD ASP.NET Core Web API",
-                      TermsOfService = new Uri("https://example.com/terms"),
-                      Contact = new OpenApiContact
-                      {
-                          Name = "lamboktulus1379",
-                          Email = "lamboktulus1379@gmail.com",
-                          Url = new Uri("https://twitter.com/lamboktulus1379"),
-                      },
-                      License = new OpenApiLicense
-                      {
-                          Name = "Gra License",
-                          Url = new Uri("https://example.com/license"),
-                      }
-                  });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "YD",
+                    Version = "v1",
+                    Description = "YD ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "lamboktulus1379",
+                        Email = "lamboktulus1379@gmail.com",
+                        Url = new Uri("https://twitter.com/lamboktulus1379"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Gra License",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
 
-                  var security = new Dictionary<string, IEnumerable<string>>
-                  {
-                      {"Bearer", new string[0] }
-                  };
+                var security = new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", new string[0] }
+                };
 
-                  c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                  {
-                      Description =
-          "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
-                      Name = "Authorization",
-                      In = ParameterLocation.Header,
-                      Type = SecuritySchemeType.ApiKey,
-                      Scheme = "Bearer"
-                  });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description =
+        "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
 
-                  c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-  {
-      {
-          new OpenApiSecurityScheme
-          {
-              Reference = new OpenApiReference
-              {
-                  Type = ReferenceType.SecurityScheme,
-                  Id = "Bearer"
-              },
-              Scheme = "oauth2",
-              Name = "Bearer",
-              In = ParameterLocation.Header,
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+{
+    {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "Bearer"
+            },
+            Scheme = "oauth2",
+            Name = "Bearer",
+            In = ParameterLocation.Header,
 
-          },
-          new List<string>()
-      }
-  });
-              });*/
+        },
+        new List<string>()
+    }
+});
+            });
             services.AddDbContext<YDContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
             services.AddCors(options =>
@@ -106,42 +101,36 @@ namespace yd
                     builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
                 });
             });
-            services.AddAuthentication("BasicAuthentication")
-               .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-            /*var appSettings = jwtSection.Get<JWTSettings>();
+
+
+            /*services.AddAuthentication("BasicAuthentication")
+               .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);*/
+
+            var jwtSection = Configuration.GetSection("JWTSettings");
+            services.Configure<JWTSettings>(jwtSection);
+
+            //to validate the token which has been sent by clients
+            var appSettings = jwtSection.Get<JWTSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(x =>
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = true;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    x.RequireHttpsMetadata = true;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });*/
-
-            /* services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                 .AddJwtBearer(options =>
-                 {
-                     options.TokenValidationParameters = new TokenValidationParameters
-                     {
-                         ValidateIssuer = true,
-                         ValidateAudience = true,
-                         ValidateLifetime = true,
-                         ValidateIssuerSigningKey = true,
-                         ValidIssuer = Configuration["Jwt:Issuer"],
-                         ValidAudience = Configuration["Jwt:Issuer"],
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-                     };
-                 });*/
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             services.AddMvc();
         }
@@ -155,19 +144,21 @@ namespace yd
             }
 
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
+
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseAuthorization();
 
-            /* app.UseSwagger();
+            app.UseSwagger();
 
-             app.UseSwaggerUI(c =>
-             {
-                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "YD V1");
-                 c.RoutePrefix = string.Empty;
-             });
- */
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "YD V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
