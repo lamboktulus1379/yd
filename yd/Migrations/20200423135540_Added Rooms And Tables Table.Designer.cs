@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using yd.Models;
 
 namespace yd.Migrations
 {
     [DbContext(typeof(YDContext))]
-    partial class YDContextModelSnapshot : ModelSnapshot
+    [Migration("20200423135540_Added Rooms And Tables Table")]
+    partial class AddedRoomsAndTablesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,9 +69,6 @@ namespace yd.Migrations
                     b.Property<int>("Column")
                         .HasColumnType("int");
 
-                    b.Property<int>("ColumnSpan")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -77,12 +76,6 @@ namespace yd.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Row")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RowSpan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

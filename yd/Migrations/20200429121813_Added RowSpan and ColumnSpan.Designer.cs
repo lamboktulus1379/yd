@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using yd.Models;
 
 namespace yd.Migrations
 {
     [DbContext(typeof(YDContext))]
-    partial class YDContextModelSnapshot : ModelSnapshot
+    [Migration("20200429121813_Added RowSpan and ColumnSpan")]
+    partial class AddedRowSpanandColumnSpan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,9 +82,6 @@ namespace yd.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("RowSpan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
