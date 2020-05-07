@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using yd.Models;
@@ -19,47 +22,13 @@ namespace yd.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        public static IWebHostEnvironment _environment;
         private readonly YDContext _context;
 
-        private readonly JWTSettings _jwtsettings;
-
-        public UsersController(YDContext context, IOptions<JWTSettings> jwtsettings)
+        public UsersController(YDContext context, IWebHostEnvironment environment)
         {
+            _environment = environment;
             _context = context;
-            _jwtsettings = jwtsettings.Value;
-        }
-
-
-        [HttpPost("Login")]
-        public async Task<ActionResult<UserWithToken>> Login([FromBody] User user)
-        {
-
-            user = await _context.Users
-                .Where(u => u.EmailAddress == user.EmailAddress && u.Password == user.Password).FirstOrDefaultAsync();
-
-            UserWithToken userWithToken = new UserWithToken(user);
-
-            user.Password = null;
-
-            if (userWithToken == null)
-            {
-                return NotFound();
-            }
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtsettings.SecretKey);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.EmailAddress)
-                }),
-                Expires = DateTime.UtcNow.AddMonths(6),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            userWithToken.Token = tokenHandler.WriteToken(token);
-
-            return userWithToken;
         }
 
         // GET api/<YDsController>/5
@@ -74,5 +43,59 @@ namespace yd.Controllers
             }
             return user;
         }
+
+        public class FIleUploadAPI
+        {
+            public IFormFile files { get; set; }
+        }
+        [HttpPost("UploadFile")]
+        public async Task<string> Post(FIleUploadAPI files)
+        {
+            if (files.files.Length > 0)
+            {
+                try
+                {
+                    if (!Directory.Exists(_environment.WebRootPath + "\\uploads\\"))
+                    {
+                        Directory.CreateDirectory(_environment.WebRootPath + "\\uploads\\");
+                    }
+                    using (FileStream filestream = System.IO.File.Create(_environment.WebRootPath + "\\uploads\\" + files.files.FileName))
+                    {
+                        files.files.CopyTo(filestream);
+                        filestream.Flush();
+                        return "\\uploads\\" + files.files.FileName;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return ex.ToString();
+                }
+            }
+            else
+            {
+                return "Unsuccessful";
+            }
+        }
+
+        [HttpPost("picture")]
+        public ActionResult Picture([FromForm]Picture picture)
+        {
+            string name = picture.Name;
+            var image = picture.Image;
+
+            if (image.Length> 0)
+            {
+                var filePath = Path.Combine("wwwroot/uploads", image.FileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    image.CopyTo(fileStream);
+                }
+            }
+            return Ok(new { status = true, message = "Student Posted Successfully" });
+        }
+
+
+
+
     }
 }

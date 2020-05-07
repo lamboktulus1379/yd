@@ -20,6 +20,7 @@ using System.Text;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace yd
 {
@@ -155,6 +156,8 @@ namespace yd
 
             app.UseSwagger();
 
+            app.UseStaticFiles();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "YD V1");
@@ -165,6 +168,8 @@ namespace yd
             {
                 endpoints.MapControllers();
             });
+
+          
         }
     }
 }
