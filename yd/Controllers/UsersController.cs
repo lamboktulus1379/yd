@@ -91,7 +91,7 @@ namespace yd.Controllers
                     image.CopyTo(fileStream);
                 }
             }
-            return Ok(new { status = true, message = "Student Posted Successfully" });
+            return Ok(new { status = true, message = "Picture Posted Successfully" });
         }
 
 
