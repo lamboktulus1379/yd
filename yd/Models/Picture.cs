@@ -12,6 +12,6 @@ namespace yd.Models
         [Key]
         public int id { get; set; }
         public string Name { get; set; }
-        public IFormFile Image { get; set; }
+        public String Path { get; set; }
     }
 }

@@ -78,12 +78,25 @@ namespace yd.Controllers
         }
 
         [HttpPost("picture")]
-        public ActionResult Picture([FromForm]Picture picture)
+        public ActionResult<Picture> Picture(IFormFile file)
         {
-            string name = picture.Name;
-            var image = picture.Image;
+            try
+            {
+                
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", file.FileName);
 
-            if (image.Length> 0)
+                var stream = new FileStream(path, FileMode.Create);
+                file.CopyToAsync(stream);
+
+                return Ok(new { length = file.Length, name = file.FileName });
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+
+           /* if (image.Length> 0)
             {
                 var filePath = Path.Combine("wwwroot/uploads", image.FileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
@@ -91,7 +104,7 @@ namespace yd.Controllers
                     image.CopyTo(fileStream);
                 }
             }
-            return Ok(new { status = true, message = "Picture Posted Successfully" });
+            return Ok(new { status = true, message = "Picture Posted Successfully" });*/
         }
 
 
