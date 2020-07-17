@@ -44,9 +44,9 @@ namespace yd
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "YD",
+                    Title = "Gra",
                     Version = "v1",
-                    Description = "YD ASP.NET Core Web API",
+                    Description = "Gra ASP.NET Core Web API",
                     TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {

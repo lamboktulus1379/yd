@@ -66,7 +66,6 @@ namespace yd.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
             return Ok(productCategory);
