@@ -14,6 +14,7 @@ namespace yd.Models
         public string UserName { get; set; }
         [Required]
         public string Password { get; set; }
+        [Display(Name = "Email Address")]
         [Required]
         public string EmailAddress { get; set; }
         public string Token { get; set; }
