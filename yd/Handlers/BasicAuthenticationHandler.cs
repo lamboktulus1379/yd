@@ -15,11 +15,11 @@ namespace yd.Handlers
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly YDContext _context;
+        private readonly GraContext _context;
         public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
                 ILoggerFactory Logger,
                 UrlEncoder encoder,
-                ISystemClock clock, YDContext context) : base(options, Logger, encoder, clock)
+                ISystemClock clock, GraContext context) : base(options, Logger, encoder, clock)
         {
             _context = context;
         }

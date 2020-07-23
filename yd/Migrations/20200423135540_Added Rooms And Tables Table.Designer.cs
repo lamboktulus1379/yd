@@ -8,7 +8,7 @@ using yd.Models;
 
 namespace yd.Migrations
 {
-    [DbContext(typeof(YDContext))]
+    [DbContext(typeof(GraContext))]
     [Migration("20200423135540_Added Rooms And Tables Table")]
     partial class AddedRoomsAndTablesTable
     {

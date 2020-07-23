@@ -15,9 +15,9 @@ namespace yd.Controllers
     [ApiController]
     public class Products : ControllerBase
     {
-        private readonly YDContext _context;
+        private readonly GraContext _context;
 
-        public Products(YDContext context)
+        public Products(GraContext context)
         {
             _context = context;
         }

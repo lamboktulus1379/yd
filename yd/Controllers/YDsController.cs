@@ -19,8 +19,8 @@ namespace yd.Controllers
     [ApiController]
     public class YDsController : ControllerBase
     {
-        private readonly YDContext _context;
-        public YDsController(YDContext context)
+        private readonly GraContext _context;
+        public YDsController(GraContext context)
         {
             _context = context;
         }

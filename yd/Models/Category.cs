@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace yd.Models
 {
-    public class Product
+    public class Category
     {
-        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int  CategoryId { get; set; }
-        public Category Category;
-
+        public int parentId { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

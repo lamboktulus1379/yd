@@ -8,7 +8,7 @@ using yd.Models;
 
 namespace yd.Migrations
 {
-    [DbContext(typeof(YDContext))]
+    [DbContext(typeof(GraContext))]
     [Migration("20200503105359_CreateProductEntity")]
     partial class CreateProductEntity
     {

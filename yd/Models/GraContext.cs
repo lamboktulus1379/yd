@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace yd.Models
 {
-    public class YDContext : DbContext
+    public class GraContext : DbContext
     {
-        public YDContext(DbContextOptions<YDContext> options) : base(options)
+        public GraContext(DbContextOptions<GraContext> options) : base(options)
         {
 
         }
@@ -17,10 +18,10 @@ namespace yd.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Table> Tables { get; set; }
-
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Picture> Pictures { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 
 }

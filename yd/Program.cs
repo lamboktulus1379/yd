@@ -28,7 +28,7 @@ namespace yd
 
                 try
                 {
-                    var context = services.GetRequiredService<YDContext>();
+                    var context = services.GetRequiredService<GraContext>();
                     context.Database.Migrate();
                     SeedData.Initialize(services);
                 }

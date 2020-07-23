@@ -13,9 +13,9 @@ namespace yd.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private YDContext _context;
+        private GraContext _context;
 
-        public RolesController(YDContext context)
+        public RolesController(GraContext context)
         {
             _context = context;
         }

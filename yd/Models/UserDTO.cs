@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace yd.Models
 {
-    public class User
+    public class UserDTO
     {
-        [Key]
         public int Id { get; set; }
         public string UserName { get; set; }
-        [Required]
-        public string Password { get; set; }
         [Display(Name = "Email Address")]
-        [Required]
         public string EmailAddress { get; set; }
         public string Token { get; set; }
     }

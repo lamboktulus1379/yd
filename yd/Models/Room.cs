@@ -16,8 +16,6 @@ namespace yd.Models
         public int NumberOfRows { get; set; }
         [Required]
         public int NumberOfColumns { get; set; }
-        public ICollection<Table> Tables { get; set; }
-
-        
+        public ICollection<Table> Tables { get; set; }        
     }
 }

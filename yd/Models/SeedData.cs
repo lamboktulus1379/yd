@@ -12,7 +12,7 @@ namespace Gra.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new YDContext(serviceProvider.GetRequiredService<DbContextOptions<YDContext>>()))
+            using (var context = new GraContext(serviceProvider.GetRequiredService<DbContextOptions<GraContext>>()))
             {
                 if (context.ProductCategories.Any())
                 {

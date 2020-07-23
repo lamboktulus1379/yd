@@ -19,10 +19,10 @@ namespace yd.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly YDContext _context;
+        private readonly GraContext _context;
         private readonly JWTSettings _jwtsettings;
 
-        public AuthController(YDContext context, IOptions<JWTSettings> jwtsettings)
+        public AuthController(GraContext context, IOptions<JWTSettings> jwtsettings)
         {
             _context = context;
             _jwtsettings = jwtsettings.Value;
@@ -59,19 +59,28 @@ namespace yd.Controllers
         }
         [Authorize]
         [HttpGet("User")]
-        public async Task<ActionResult<User>> Get()
+        public async Task<ActionResult<UserDTO>> Get()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             IList<Claim> claim = identity.Claims.ToList();
             var emailAddress = claim[0].Value;
             var user = await _context.Users
-                .Where(u => u.EmailAddress == emailAddress).FirstOrDefaultAsync();
+                .Where(u => u.EmailAddress == emailAddress).FirstAsync();
 
             if (user == null)
             {
                 return NotFound();
             }
-            return user;
+            return UserToDTO(user);
         }
+
+        public static UserDTO UserToDTO(User user) =>
+            new UserDTO
+            {
+                Id = user.Id,
+                EmailAddress = user.EmailAddress,
+                UserName = user.UserName,
+                Token = user.Token
+            };
     }
 }

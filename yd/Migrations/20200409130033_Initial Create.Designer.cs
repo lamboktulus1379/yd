@@ -8,7 +8,7 @@ using yd.Models;
 
 namespace yd.Migrations
 {
-    [DbContext(typeof(YDContext))]
+    [DbContext(typeof(GraContext))]
     [Migration("20200409130033_Initial Create")]
     partial class InitialCreate
     {

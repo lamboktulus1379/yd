@@ -15,8 +15,8 @@ namespace yd.Controllers
     [ApiController]
     public class RoomsController : ControllerBase
     {
-        private readonly YDContext _context;
-        public RoomsController(YDContext context)
+        private readonly GraContext _context;
+        public RoomsController(GraContext context)
         {
             _context = context;
         }

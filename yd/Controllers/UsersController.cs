@@ -23,9 +23,9 @@ namespace yd.Controllers
     public class UsersController : ControllerBase
     {
         public static IWebHostEnvironment _environment;
-        private readonly YDContext _context;
+        private readonly GraContext _context;
 
-        public UsersController(YDContext context, IWebHostEnvironment environment)
+        public UsersController(GraContext context, IWebHostEnvironment environment)
         {
             _environment = environment;
             _context = context;

@@ -101,7 +101,7 @@ namespace yd
     }
 });
             });
-            services.AddDbContext<YDContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            services.AddDbContext<GraContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
             services.AddCors(options =>
             {
