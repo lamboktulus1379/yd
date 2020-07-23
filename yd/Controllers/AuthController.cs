@@ -79,8 +79,7 @@ namespace yd.Controllers
             {
                 Id = user.Id,
                 EmailAddress = user.EmailAddress,
-                UserName = user.UserName,
-                Token = user.Token
+                UserName = user.UserName
             };
     }
 }

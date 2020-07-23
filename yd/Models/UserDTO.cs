@@ -12,6 +12,5 @@ namespace yd.Models
         public string UserName { get; set; }
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
-        public string Token { get; set; }
     }
 }
